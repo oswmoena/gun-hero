@@ -1,8 +1,9 @@
 import React from 'react'
 import './Boss.css'
+import BossImg from '../assets/boss.png'
 
 export const Boss = () => {
     return (
-        <div>Boss</div>
+        <img src={BossImg} className={"boss"} />
     )
 }
