@@ -34,3 +34,22 @@ table, tr, td {
     font-size: 20px;
     margin: 10px 0px;
 }
+
+.hp-content {
+    width: 20%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.hp-bar {
+    margin-left: 2%;
+    border: 1px solid lightgray;
+    width: 100%;
+    background-color: lightgray;
+}
+
+.hp-bar-rest {
+    width: 75%;
+    height: 100%;
+    background-color: green !important;
+}

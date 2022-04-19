@@ -10,12 +10,14 @@ const keyTranslate = {
     ArrowRight: 3,
 }
 
+const INITIAL_BOSSLIFE = 100
+
 export const Background = () => {
 
     const [bossPosition, setBossPosition] = useState(1)
     const [gunPosition, setGunPosition] = useState(1)
     const [level, setLevel] = useState(1)
-    const [bossHP, setBossHP] = useState(2)
+    const [bossHP, setBossHP] = useState(INITIAL_BOSSLIFE)
     const [bang, setBang] = useState(false)
     const [success, setSuccess] = useState(false);
     const [bossInterval, setBossInterval] = useState(1000);
@@ -50,7 +52,7 @@ export const Background = () => {
         const interval = setInterval(() => {
             if (success === true) {
                 setLevel(level + 1)
-                setBossHP(2)
+                setBossHP(INITIAL_BOSSLIFE)
                 setSuccess(false)
                 setBossInterval(bossInterval - 200)
             }
@@ -94,7 +96,12 @@ export const Background = () => {
             <div className={"info-bar"}>
                 <div >Nivel: {level}</div>
                 <div>{bang && "BANG!"}</div>
-                <div >HP: {bossHP}</div>
+                <div className={'hp-content'} >
+                    HP:
+                    <div className={'hp-bar'}>
+                        <div className={'hp-bar-rest'} style={{ width: `${bossHP}%` }}></div>
+                    </div>
+                </div>
             </div>
             <div className={"container"}>
                 {success ?
