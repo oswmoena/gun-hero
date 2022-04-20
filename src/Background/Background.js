@@ -2,68 +2,68 @@ import React, { useState, useEffect } from 'react'
 import './Background.css'
 import { Boss } from '../Boss/Boss'
 import { Shooter } from "../shooter/Shooter";
+import { Explotion } from '../Explotion/Explotion';
 
-const keyTranslate = {
-    ArrowUp: 1,
-    ArrowDown: 1,
-    ArrowLeft: 2,
-    ArrowRight: 3,
+const INITIAL_BOSSLIFE = 2
+const INITIAL_BOSS_INTERVAL = 1000
+const INIT_SUCCESS = {
+    message: false,
+    gif: false
 }
-
-const INITIAL_BOSSLIFE = 100
 
 export const Background = () => {
 
     const [bossPosition, setBossPosition] = useState(1)
+    const [bossPositionDeath, setBossPositionDeath] = useState(0)
     const [gunPosition, setGunPosition] = useState(1)
     const [level, setLevel] = useState(1)
     const [bossHP, setBossHP] = useState(INITIAL_BOSSLIFE)
     const [bang, setBang] = useState(false)
-    const [success, setSuccess] = useState(false);
-    const [bossInterval, setBossInterval] = useState(1000);
+    const [success, setSuccess] = useState(INIT_SUCCESS);
+    const [bossInterval, setBossInterval] = useState(INITIAL_BOSS_INTERVAL)
 
     useEffect(() => {
         const interval = setInterval(() => {
             setBossPosition(random(1, 3))
         }, bossInterval);
         return () => clearInterval(interval);
-    }, []);
+    }, [bossInterval]);
 
     useEffect(() => {
         const interval = setInterval(() => {
             setBang(false)
         }, 100);
         if (bang === true && (bossPosition === gunPosition)) {
+            setBossPositionDeath(bossPosition)
             setBossHP(bossHP - 2)
         }
         if (bang === true && bossHP === 0) {
-            setSuccess(true)
+            setSuccess({ message: true, gif: true })
         }
         return () => clearInterval(interval);
     }, [bang]);
 
     useEffect(() => {
         if (bossHP === 0) {
-            setSuccess(true)
+            setSuccess({ message: false, gif: true })
         }
     }, [bossHP]);
 
     useEffect(() => {
         const interval = setInterval(() => {
-            if (success === true) {
+            if (success.message === true) {
                 setLevel(level + 1)
                 setBossHP(INITIAL_BOSSLIFE)
-                setSuccess(false)
-                setBossInterval(bossInterval - 200)
+                setSuccess(INIT_SUCCESS)
+                if (bossInterval > 50) {
+                    setBossInterval(bossInterval - 50)
+                } else if (bossInterval > 25) {
+                    setBossInterval(bossInterval - 25)
+                }
             }
         }, 1000);
         return () => clearInterval(interval);
-    }, [success]);
-
-    useEffect(() => {
-        console.log('bossInterval', bossInterval)
-    }, bossInterval)
-
+    }, [success.message]);
 
     const random = (min, max) => {
         return Math.floor((Math.random() * (max - min + 1)) + min);
@@ -77,17 +77,22 @@ export const Background = () => {
         }
     };
 
-    const handleSuccess = () => {
-        return <h1>GANASTE!</h1>
-    }
-
     useEffect(() => {
         window.addEventListener('keydown', handleUserKeyPress);
 
         return () => {
             window.removeEventListener('keydown', handleUserKeyPress);
         };
-    });
+    }, []);
+
+    useEffect(() => {
+
+        if (success.gif) {
+            // setSuccess({ message: true, gif: false })
+        }
+
+        // return console.log('success', success)
+    }, [success]);
 
 
 
@@ -104,8 +109,14 @@ export const Background = () => {
                 </div>
             </div>
             <div className={"container"}>
-                {success ?
-                    (<h1>GANASTE!</h1>)
+                {success.gif ?
+                    success.message ? (<h1>GANASTE!</h1>) : (<table className={'shooter-table'}>
+                        <tr>
+                            <td className={'selected'}>{bossPositionDeath === 2 && <Explotion />}</td>
+                            <td className={'selected'}>{bossPositionDeath === 1 && <Explotion />}</td>
+                            <td className={'selected'}>{bossPositionDeath === 3 && <Explotion />}</td>
+                        </tr>
+                    </table>)
                     :
                     (<table className={'shooter-table'}>
                         <tr>
