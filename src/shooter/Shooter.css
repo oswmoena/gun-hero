@@ -1,10 +1,11 @@
 .container-shooter {
-    height: 85px;
+    /* height: 85px; */
     width: 700px;
-    background-color: #61dafb;
+    /* background-color: #61dafb; */
     display: flex;
     justify-content: space-around;
     align-items: center;
+    margin-top: -13.5%;
 }
 table, tr, td{
     border:none;
@@ -17,6 +18,7 @@ table, tr, td{
 
 .shotgun {
     width: 200px;
+    margin-top: -56%;
 }
 
 .selected {

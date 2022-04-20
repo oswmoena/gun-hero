@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import './Shooter.css'
 import Shotgun from '../assets/shotgun.png'
+import ShotgunFireAnimate from '../assets/shotgun-fire.gif'
 
 const keyTranslate = {
     ArrowUp: 1,
@@ -9,7 +10,7 @@ const keyTranslate = {
     ArrowRight: 3,
 }
 
-export const Shooter = ({ gunPosition, setGunPosition }) => {
+export const Shooter = ({ gunPosition, setGunPosition, bang }) => {
 
     const handleUserKeyPress = event => {
         const { key } = event;
@@ -28,8 +29,16 @@ export const Shooter = ({ gunPosition, setGunPosition }) => {
     });
 
     const showShotgun = () => {
-        return <img src={Shotgun} className={"shotgun"} />
+        if (bang == true ) {
+            console.log('bang')
+            return <img src={ShotgunFireAnimate} className={"shotgun"} />
+
+        } else {
+
+            return <img src={Shotgun} className={"shotgun"} />
+        }
     }
+
     return (
         <div className={"container-shooter"}>
             <table className={'shooter-table'}>

@@ -4,7 +4,7 @@ import { Boss } from '../Boss/Boss'
 import { Shooter } from "../shooter/Shooter";
 import { Explotion } from '../Explotion/Explotion';
 
-const INITIAL_BOSSLIFE = 2
+const INITIAL_BOSSLIFE = 6
 const INITIAL_BOSS_INTERVAL = 1000
 const INIT_SUCCESS = {
     message: false,
@@ -97,10 +97,11 @@ export const Background = () => {
 
 
     return (
-        <div>
+        <div className={"background"}>
             <div className={"info-bar"}>
                 <div >Nivel: {level}</div>
-                <div>{bang && "BANG!"}</div>
+                {/* <div>{bang && "BANG!"}</div> */}
+                <div>Press SPACE to shot</div>
                 <div className={'hp-content'} >
                     HP:
                     <div className={'hp-bar'}>
@@ -110,13 +111,16 @@ export const Background = () => {
             </div>
             <div className={"container"}>
                 {success.gif ?
-                    success.message ? (<h1>GANASTE!</h1>) : (<table className={'shooter-table'}>
-                        <tr>
-                            <td className={'selected'}>{bossPositionDeath === 2 && <Explotion />}</td>
-                            <td className={'selected'}>{bossPositionDeath === 1 && <Explotion />}</td>
-                            <td className={'selected'}>{bossPositionDeath === 3 && <Explotion />}</td>
-                        </tr>
-                    </table>)
+                    success.message ?
+                        (<h1 style={{ color: "white" }}>ENEMIGO ABATIDO</h1>)
+                        :
+                        (<table className={'shooter-table'}>
+                            <tr>
+                                <td className={'selected'}>{bossPositionDeath === 2 && <Explotion />}</td>
+                                <td className={'selected'}>{bossPositionDeath === 1 && <Explotion />}</td>
+                                <td className={'selected'}>{bossPositionDeath === 3 && <Explotion />}</td>
+                            </tr>
+                        </table>)
                     :
                     (<table className={'shooter-table'}>
                         <tr>
@@ -127,7 +131,7 @@ export const Background = () => {
                     </table>)
                 }
             </div>
-            <Shooter gunPosition={gunPosition} setGunPosition={setGunPosition} />
+            <Shooter gunPosition={gunPosition} setGunPosition={setGunPosition} bang={bang} />
         </div>
     )
 }
